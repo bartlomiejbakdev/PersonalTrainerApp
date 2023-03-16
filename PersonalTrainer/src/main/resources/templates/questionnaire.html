@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kwestionariusz</title>
+</head>
+<body>
+<p>Kwestionariusz</p>
+
+
+<form>
+    <tr th:each="question: ${questions}">
+        <td th:text="${question.text}"/>
+        <br>
+
+        <p>Odpowiedź: <input type="text"></p>
+        <p>=================</p>
+    </tr>
+    <p><input type="submit" value="Prześlij odpowiedź"></p>
+</form>
+
+</body>
+</html>
