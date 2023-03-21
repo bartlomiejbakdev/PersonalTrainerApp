@@ -5,12 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class QuestionnaireApi {
+public class QuestionnaireController {
 
 
     private final QuestionnaireService questionnaireService;
 
-    public QuestionnaireApi(QuestionnaireService questionnaireService) {
+    public QuestionnaireController(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
     }
 
