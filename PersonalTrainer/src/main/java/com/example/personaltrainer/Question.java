@@ -1,11 +1,15 @@
 package com.example.personaltrainer;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
-@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Question {
 
-    public Long id;
     public String text;
+    public String answer;
 }
