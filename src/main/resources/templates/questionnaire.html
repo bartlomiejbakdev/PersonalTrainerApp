@@ -8,12 +8,16 @@
 <p>Kwestionariusz</p>
 
 
-<form>
-    <tr th:each="question: ${questions}">
+<form th:action="@{/kwestionariusz}" method="post" th:object="${questions}">
+    <tr th:each="question: ${questions.questionList}">
         <td th:text="${question.text}"/>
         <br>
 
-        <p>Odpowiedź: <input type="text"></p>
+        <p>
+            Odpowiedź: <input type="text" th:field="*{questionList[__${questionStat.index}__].answer}">
+            <input type="hidden" th:value="${question.text}" th:field="*{questionList[__${questionStat.index}__].text}">
+        </p>
+
         <p>=================</p>
     </tr>
     <p><input type="submit" value="Prześlij odpowiedź"></p>
