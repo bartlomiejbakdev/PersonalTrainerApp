@@ -34,3 +34,6 @@ build/
 
 ### questionnaires DOCS ##
 src/main/resources/questionnaires/
+
+### application.propreries ###
+src/main/resources/application.properties

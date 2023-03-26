@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 @Controller
@@ -15,9 +16,11 @@ public class QuestionnaireController {
 
 
     private final QuestionnaireService questionnaireService;
+    private final EmailService emailService;
 
-    public QuestionnaireController(QuestionnaireService questionnaireService) {
+    public QuestionnaireController(QuestionnaireService questionnaireService, EmailService emailService) {
         this.questionnaireService = questionnaireService;
+        this.emailService = emailService;
     }
 
     @GetMapping()
@@ -28,9 +31,13 @@ public class QuestionnaireController {
     }
 
     @PostMapping()
-    public String submit(@ModelAttribute QuestionsDto questionsDto) throws IOException {
+    public String submit(@ModelAttribute QuestionsDto questionsDto) throws IOException, MessagingException, jakarta.mail.MessagingException {
 
         questionnaireService.generateDocument(questionsDto);
+        emailService.sendEmailWithAttachment("barbak43@wp.pl", questionsDto.getQuestionList().get(0).answer,
+                "Kwestionariusz wypełniony przez: " + questionsDto.getQuestionList().get(0).answer + " znajduję się w załączniku",
+                "src/main/resources/questionnaires/" + questionsDto.getQuestionList().get(0).answer + ".docx");
+
         return "redirect:/kwestionariusz";
     }
 }
