@@ -106,7 +106,12 @@
         <div class="question">
             <h2 th:text="${question.text}"/>
             <br>
-            <textarea th:field="*{questionList[__${questionStat.index}__].answer}" oninput="autoGrow(this)"></textarea>
+            <td th:each="answer: ${question.answerList}">
+
+            <textarea th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}"
+                      oninput="autoGrow(this)"></textarea>
+            </td>
+
             <input type="hidden" th:value="${question.text}"
                    th:field="*{questionList[__${questionStat.index}__].text}">
         </div>
