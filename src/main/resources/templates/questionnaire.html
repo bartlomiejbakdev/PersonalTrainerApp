@@ -12,6 +12,7 @@
     <style>
         body {
             background-color: #b0b0b0;
+            font-family: 'Tahoma', sans-serif;
         }
 
         .container {
@@ -51,7 +52,7 @@
             width: 90%;
             padding: 10px;
             border-radius: 5px;
-            border: 2px solid blue;
+            border: 1px solid blue;
             box-sizing: border-box;
             height: auto;
         }
@@ -108,8 +109,29 @@
             <br>
             <td th:each="answer: ${question.answerList}">
 
-            <textarea th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}"
-                      oninput="autoGrow(this)"></textarea>
+                <span th:if="${answer.type == answer.type.CHECKBOX}">
+                    <label th:text="${answer.label}"></label>
+                    <input type="checkbox" value="tak"
+                           th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}">
+                    <input type="hidden" th:value="${answer.label}"
+                           th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].label}">
+                </span>
+
+                <span th:if="${answer.type == answer.type.TEXT}">
+                    <textarea
+                            th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}"
+                            oninput="autoGrow(this)"></textarea>
+                </span>
+
+                <span th:if="${answer.type == answer.type.SMALLTEXT}">
+                    <label th:text="${answer.label}"></label>
+                    <br>
+                    <input type="text" style="width: 11%;"
+                        th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}">
+                    <input type="hidden" th:value="${answer.label}"
+                        th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].label}">
+                </span>
+
             </td>
 
             <input type="hidden" th:value="${question.text}"

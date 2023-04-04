@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class Answer {
 
     public String text;
+    public String label;
     public AnswerType type;
 }
