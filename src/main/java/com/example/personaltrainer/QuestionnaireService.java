@@ -1,11 +1,7 @@
 package com.example.personaltrainer;
 
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.springframework.stereotype.Service;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,27 +28,4 @@ public class QuestionnaireService {
         return new QuestionsDto(questions);
     }
 
-    public void generateDocument(QuestionsDto questionsDto) throws IOException {
-
-        XWPFDocument document = new XWPFDocument();
-
-        XWPFParagraph paragraph = document.createParagraph();
-
-
-        for (Question question : questionsDto.getQuestionList()) {
-            paragraph.createRun().setText(question.text + "\n");
-            paragraph.createRun().addBreak();
-            paragraph.createRun().addBreak();
-            for (Answer answer : question.answerList) {
-                paragraph.createRun().setText(answer + "\n");
-            }
-            paragraph.createRun().addBreak();
-            paragraph.createRun().addBreak();
-            paragraph.createRun().addBreak();
-        }
-
-        FileOutputStream out = new FileOutputStream("src/main/resources/questionnaires/" + questionsDto.getQuestionList().get(0).answerList.get(0).text + ".docx");
-        document.write(out);
-        out.close();
-    }
 }

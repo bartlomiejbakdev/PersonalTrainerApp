@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.mail.MessagingException;
-import java.io.IOException;
-
 @Controller
 @RequestMapping("/kwestionariusz")
 public class QuestionnaireController {
@@ -31,17 +28,18 @@ public class QuestionnaireController {
     }
 
     @GetMapping("/thankyou")
-    public String getThanksYou(){
+    public String getThanksYou() {
         return "thank-you";
     }
 
     @PostMapping()
-    public String submit(@ModelAttribute QuestionsDto questionsDto) throws IOException, MessagingException, jakarta.mail.MessagingException {
+    public String submit(@ModelAttribute QuestionsDto questionsDto) throws jakarta.mail.MessagingException {
 
-        System.out.println(questionsDto.getQuestionList());
-//        emailService.sendEmailWithAttachment("barbak43@wp.pl", questionsDto.getQuestionList().get(0).answer,
-//                "Kwestionariusz wypełniony przez: " + questionsDto.getQuestionList().get(0).answer + " znajduję się w załączniku",
-//                "src/main/resources/questionnaires/" + questionsDto.getQuestionList().get(0).answer + ".docx");
+        String sentTo = "barbak43@wp.pl";
+        String subject = emailService.generateSubject(questionsDto);
+        String message = emailService.generateMessage(questionsDto);
+
+        emailService.sendEmailWithAttachment(sentTo, subject, message);
 
         return "redirect:/kwestionariusz/thankyou";
     }
