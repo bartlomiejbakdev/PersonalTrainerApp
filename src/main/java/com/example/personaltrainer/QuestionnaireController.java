@@ -38,7 +38,7 @@ public class QuestionnaireController {
     @PostMapping()
     public String submit(@ModelAttribute QuestionsDto questionsDto) throws IOException, MessagingException, jakarta.mail.MessagingException {
 
-//        questionnaireService.generateDocument(questionsDto);
+        System.out.println(questionsDto.getQuestionList());
 //        emailService.sendEmailWithAttachment("barbak43@wp.pl", questionsDto.getQuestionList().get(0).answer,
 //                "Kwestionariusz wypełniony przez: " + questionsDto.getQuestionList().get(0).answer + " znajduję się w załączniku",
 //                "src/main/resources/questionnaires/" + questionsDto.getQuestionList().get(0).answer + ".docx");
