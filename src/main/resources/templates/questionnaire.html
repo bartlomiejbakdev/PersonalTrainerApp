@@ -11,10 +11,20 @@
     </script>
     <style>
         body {
-            background-color: #b0b0b0;
+            /*background-color: #b0b0b0;*/
             font-family: 'Tahoma', sans-serif;
+            background-image: url("static/images/backgroundsmall.jpg");
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            opacity: 0.975;
         }
 
+        .content {
+            overflow-y: scroll;
+            max-height: 100vh;
+            padding: 20px;
+        }
         .container {
             background-color: white;
             border-radius: 20px;
@@ -96,18 +106,19 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Kwestionariusz</h1>
-</div>
+<div class="content">
+    <div class="container">
+        <h1>Kwestionariusz</h1>
+    </div>
 
 
-<form th:action="@{/kwestionariusz}" method="post" th:object="${questions}">
+    <form th:action="@{/kwestionariusz}" method="post" th:object="${questions}">
 
-    <tr th:each="question: ${questions.questionList}">
-        <div class="question">
-            <h2 th:text="${question.text}"/>
-            <br>
-            <td th:each="answer: ${question.answerList}">
+        <tr th:each="question: ${questions.questionList}">
+            <div class="question">
+                <h2 th:text="${question.text}"/>
+                <br>
+                <td th:each="answer: ${question.answerList}">
 
                 <span th:if="${answer.type == answer.type.CHECKBOX}">
                     <label th:text="${answer.label}"></label>
@@ -117,29 +128,29 @@
                            th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].label}">
                 </span>
 
-                <span th:if="${answer.type == answer.type.TEXT}">
+                    <span th:if="${answer.type == answer.type.TEXT}">
                     <textarea
                             th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}"
                             oninput="autoGrow(this)"></textarea>
                 </span>
 
-                <span th:if="${answer.type == answer.type.SMALLTEXT}">
+                    <span th:if="${answer.type == answer.type.SMALLTEXT}">
                     <label th:text="${answer.label}"></label>
                     <br>
                     <input type="text" style="width: 11%;"
-                        th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}">
+                           th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}">
                     <input type="hidden" th:value="${answer.label}"
-                        th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].label}">
+                           th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].label}">
                 </span>
 
-            </td>
+                </td>
 
-            <input type="hidden" th:value="${question.text}"
-                   th:field="*{questionList[__${questionStat.index}__].text}">
-        </div>
-    </tr>
-    <p><input type="submit" value="Prześlij odpowiedź"></p>
-</form>
-
+                <input type="hidden" th:value="${question.text}"
+                       th:field="*{questionList[__${questionStat.index}__].text}">
+            </div>
+        </tr>
+        <p><input type="submit" value="Prześlij odpowiedź"></p>
+    </form>
+</div>
 </body>
 </html>
