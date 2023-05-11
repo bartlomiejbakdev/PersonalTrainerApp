@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Witaj</title>
@@ -9,6 +9,10 @@
 
 <form th:action="@{/logout}" method="post">
     <button type="submit">Wyloguj</button>
+</form>
+<br>
+<form th:action="@{admin/kwestionariusz/edit}" method="get">
+    <button type="submit">Edytuj kwestionariusz 1</button>
 </form>
 
 
