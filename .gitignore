@@ -37,3 +37,5 @@ src/main/resources/questionnaires/
 
 ### application.propreries ###
 src/main/resources/application.properties
+src/main/resources/application-dev.properties
+
