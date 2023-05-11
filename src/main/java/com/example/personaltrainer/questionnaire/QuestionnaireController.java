@@ -1,5 +1,7 @@
-package com.example.personaltrainer;
+package com.example.personaltrainer.questionnaire;
 
+import com.example.personaltrainer.core.EmailService;
+import com.example.personaltrainer.questionnaire.model.QuestionsDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

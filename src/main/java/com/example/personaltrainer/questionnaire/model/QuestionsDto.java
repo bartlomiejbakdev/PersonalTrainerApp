@@ -1,5 +1,6 @@
-package com.example.personaltrainer;
+package com.example.personaltrainer.questionnaire.model;
 
+import com.example.personaltrainer.questionnaire.entity.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

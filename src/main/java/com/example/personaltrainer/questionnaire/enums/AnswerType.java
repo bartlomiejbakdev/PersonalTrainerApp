@@ -1,4 +1,4 @@
-package com.example.personaltrainer;
+package com.example.personaltrainer.questionnaire.enums;
 
 public enum AnswerType {
     SMALLTEXT,

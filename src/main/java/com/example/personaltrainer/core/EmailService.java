@@ -1,5 +1,8 @@
-package com.example.personaltrainer;
+package com.example.personaltrainer.core;
 
+import com.example.personaltrainer.questionnaire.entity.Answer;
+import com.example.personaltrainer.questionnaire.entity.Question;
+import com.example.personaltrainer.questionnaire.model.QuestionsDto;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
