@@ -1,5 +1,9 @@
-package com.example.personaltrainer;
+package com.example.personaltrainer.questionnaire;
 
+import com.example.personaltrainer.questionnaire.entity.Answer;
+import com.example.personaltrainer.questionnaire.entity.Question;
+import com.example.personaltrainer.questionnaire.enums.AnswerType;
+import com.example.personaltrainer.questionnaire.model.QuestionsDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

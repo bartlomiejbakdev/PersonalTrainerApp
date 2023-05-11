@@ -1,6 +1,7 @@
-package com.example.personaltrainer;
+package com.example.personaltrainer.questionnaire.entity;
 
 
+import com.example.personaltrainer.questionnaire.enums.AnswerType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
