@@ -1,6 +1,7 @@
 package com.example.personaltrainer.questionnaire;
 
 import com.example.personaltrainer.core.EmailService;
+import com.example.personaltrainer.questionnaire.model.AnswerDto;
 import com.example.personaltrainer.questionnaire.model.QuestionsDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,12 @@ public class QuestionnaireController {
     @GetMapping()
     public String getQuestionnaire(Model model) {
 
-        model.addAttribute("questions", questionnaireService.getQuestions());
+        QuestionsDto questionsDto = questionnaireService.getQuestions();
+        AnswerDto answerDto = questionnaireService.getAnswers(questionsDto.getQuestionList());
+
+
+        model.addAttribute("questions", questionsDto);
+        model.addAttribute("answers", answerDto);
         return "questionnaire";
     }
 
@@ -35,13 +41,15 @@ public class QuestionnaireController {
     }
 
     @PostMapping()
-    public String submit(@ModelAttribute QuestionsDto questionsDto) throws jakarta.mail.MessagingException {
+    public String submit(@ModelAttribute AnswerDto answerDto) throws jakarta.mail.MessagingException {
 
-        String sentTo = "barbak43@wp.pl";
-        String subject = emailService.generateSubject(questionsDto);
-        String message = emailService.generateMessage(questionsDto);
+        System.out.println(answerDto);
 
-        emailService.sendEmailWithAttachment(sentTo, subject, message);
+//        String sentTo = "barbak43@wp.pl";
+//        String subject = emailService.generateSubject(questionsDto);
+//        String message = emailService.generateMessage(questionsDto);
+//
+//        emailService.sendEmailWithAttachment(sentTo, subject, message);
 
         return "redirect:/kwestionariusz/thankyou";
     }

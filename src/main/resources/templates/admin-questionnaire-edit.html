@@ -121,7 +121,7 @@
                 <td th:each="answer: ${question.answerList}">
 
                 <span th:if="${answer.type == answer.type.CHECKBOX}">
-                    <label th:text="${answer.label}"></label>
+                    <label th:text="${answer.questionText}"></label>
                     <input type="checkbox" value="tak">
                 </span>
 
@@ -130,7 +130,7 @@
                 </span>
 
                     <span th:if="${answer.type == answer.type.SMALLTEXT}">
-                    <label th:text="${answer.label}"></label>
+                    <label th:text="${answer.questionText}"></label>
                     <br>
                     <input type="text" style="width: 11%;">
                 </span>
