@@ -1,11 +1,11 @@
 package com.example.personaltrainer.questionnaire;
 
 import com.example.personaltrainer.questionnaire.entity.Answer;
-import com.example.personaltrainer.questionnaire.entity.Label;
 import com.example.personaltrainer.questionnaire.entity.Question;
 import com.example.personaltrainer.questionnaire.enums.AnswerType;
 import com.example.personaltrainer.questionnaire.model.AnswerDto;
 import com.example.personaltrainer.questionnaire.model.QuestionsDto;
+import com.example.personaltrainer.questionnaire.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,10 +14,16 @@ import java.util.List;
 @Service
 public class QuestionnaireService {
 
+    private final QuestionRepository questionRepository;
+
+    public QuestionnaireService(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
+
 
     public QuestionsDto getQuestions() {
 
-        List<Question> questions = new ArrayList<>();
+        List<Question> questions = questionRepository.findAll();
 
 //        questions.add(new Question("Jak się nazywasz?", AnswerType.TEXT, List.of(new Answer("", ""))));
 //        questions.add(new Question("Twój E-mail", AnswerType.TEXT, List.of(new Answer("", ""))));
@@ -35,16 +41,24 @@ public class QuestionnaireService {
                 .text("Jak się nazywasz?")
                 .answerType(AnswerType.TEXT)
                 .build());
-        questions.add(Question.builder()
-                .text("Twoja aktywność fizyczna")
-                .answerType(AnswerType.CHECKBOX)
-                .labels(List.of(new Label("Duża"), new Label("Średnia"), new Label("Mała")))
-                .build());
-        questions.add(Question.builder()
-                .text("Podaj mi swoją wagę(na czczo) oraz wzrost.")
-                .answerType(AnswerType.SMALLTEXT)
-                .labels(List.of(new Label("Waga:"), new Label("Wzrost:")))
-                .build());
+//        questions.add(Question.builder()
+//                .text("Twoja aktywność fizyczna")
+//                .answerType(AnswerType.CHECKBOX)
+//                .labels(List.of(new Label("Duża"), new Label("Średnia"), new Label("Mała")))
+//                .build());
+//        questions.add(Question.builder()
+//                .text("Podaj mi swoją wagę(na czczo) oraz wzrost.")
+//                .answerType(AnswerType.SMALLTEXT)
+//                .labels(List.of(new Label("Waga:"), new Label("Wzrost:")))
+//                .build());
+        System.out.println(questions.get(4).text);
+        System.out.println(questions.get(4).labels);
+        System.out.println(questions.get(4).answerType);
+
+        System.out.println(questions.get(5).text);
+        System.out.println(questions.get(5).labels);
+        System.out.println(questions.get(5).answerType);
+
         return new QuestionsDto(questions);
     }
 

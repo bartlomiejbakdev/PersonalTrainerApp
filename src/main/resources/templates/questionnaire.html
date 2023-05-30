@@ -126,7 +126,7 @@
                 <h2 th:text="${question.text}"/>
 
                 <!--Answer type = TEXT-->
-                <span th:if="${question.labels == null}">
+                <span th:if="${#lists.isEmpty(question.labels)}">
 
                     <textarea th:field="*{answerList[__${questionStat.index}__].text}"
                               oninput="autoGrow(this)"></textarea>

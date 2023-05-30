@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edycja Kwestionariusza</title>
+
+    <script th:inline="javascript">
+        function deleteQuestion(id) {
+
+            fetch('admin/kwestionariusz/edit/question/delete/' + id)
+                .then(function (response) {
+                    if (response.ok) {
+                        console.log('Request sent successfully');
+                        // Here you can handle the response or perform a redirect
+                    } else {
+                        console.error('Error occurred while sending the request');
+                    }
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="content">
+    <div class="container">
+        <h1>Edycja Kwestionariusza 1</h1>
+    </div>
+    <br>
+
+    <tr th:each="question: ${questions.questionList}">
+        <div class="question">
+
+            <div id="item-container">
+                <span th:text="${questionStat.index} + 1 + '.  '  + ${question.text}" id="item-value"></span>
+                <input type="hidden" th:value="${question.text}" id="edit-input"/>
+                <button onclick="toggleEdit()">Edytuj</button>
+            </div>
+
+
+<!--            <button th:onclick="deleteQuestion([[${questionStat.index}]] + 1)">Usuń</button>-->
+        </div>
+    </tr>
+    <form th:action="@{/admin/kwestionariusz/add-question}" method="post" th:object="${newQuestion}">
+        <a>Treść pytania</a>
+        <input type="text" th:field="*{text}">
+        <br>
+        <a>Rozdzaj odpowiedzi</a>
+        <select th:field="*{answerType}">
+            <option th:each="option : ${T(com.example.personaltrainer.questionnaire.enums.AnswerType).values()}"
+                    th:value="${option}"
+                    th:text="${option}"></option>
+        </select>
+        <br>
+        <input type="submit" value="Dodaj pytanie">
+    </form>
+</div>
+</body>
+</html>
