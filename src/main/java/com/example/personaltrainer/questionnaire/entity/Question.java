@@ -27,4 +27,6 @@ public class Question {
 
     @OneToMany
     public List<Label> labels;
+
+    public Long orderId;
 }

@@ -3,26 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Edycja Kwestionariusza</title>
-
-    <script th:inline="javascript">
-        function deleteQuestion(id) {
-
-            fetch('admin/kwestionariusz/edit/question/delete/' + id)
-                .then(function (response) {
-                    if (response.ok) {
-                        console.log('Request sent successfully');
-                        // Here you can handle the response or perform a redirect
-                    } else {
-                        console.error('Error occurred while sending the request');
-                    }
-                })
-                .catch(function (error) {
-                    console.error('Error:', error);
-                });
-        }
-
-    </script>
-
 </head>
 <body>
 <div class="content">
@@ -30,23 +10,34 @@
         <h1>Edycja Kwestionariusza 1</h1>
     </div>
     <br>
-
+    <!--Display all questions-->
     <tr th:each="question: ${questions.questionList}">
         <div class="question">
 
             <div id="item-container">
                 <span th:text="${questionStat.index} + 1 + '.  '  + ${question.text}" id="item-value"></span>
                 <input type="hidden" th:value="${question.text}" id="edit-input"/>
-                <button onclick="toggleEdit()">Edytuj</button>
+                <button>Edytuj</button>
+                <!-- Delete button -->
+                <form th:action="@{/admin/kwestionariusz/question/{id}(id=${question.id})}" method="POST">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button type="submit">Usuń pytanie</button>
+                </form>
+
             </div>
-
-
-<!--            <button th:onclick="deleteQuestion([[${questionStat.index}]] + 1)">Usuń</button>-->
         </div>
+        <br>
     </tr>
-    <form th:action="@{/admin/kwestionariusz/add-question}" method="post" th:object="${newQuestion}">
+
+    <br>
+    <br>
+    <!--Interface to create new question-->
+    <h2>Nowe pytanie</h2>
+    <form th:action="@{/admin/kwestionariusz/question}" method="post" th:object="${newQuestion}">
         <a>Treść pytania</a>
         <input type="text" th:field="*{text}">
+        <input type="hidden" th:attr="name='orderId'"
+               th:value="${questions.questionList.size()}">
         <br>
         <a>Rozdzaj odpowiedzi</a>
         <select th:field="*{answerType}">
@@ -55,7 +46,20 @@
                     th:text="${option}"></option>
         </select>
         <br>
+
+
         <input type="submit" value="Dodaj pytanie">
+    </form>
+
+    <!--Change order-->
+    <h2>Zmiana kolejności pytań</h2>
+    <form th:action="@{/admin/kwestionariusz/question/order}" method="post" th:object="${order}">
+        <a>Zamień pytanie nr:</a>
+        <input type="text" th:field="*{firstQuestionId}">
+        <a>z pytaniem nr:</a>
+        <input type="text" th:field="*{secondQuestionId}">
+
+        <input type="submit" value="Dokonaj zamiany">
     </form>
 </div>
 </body>
