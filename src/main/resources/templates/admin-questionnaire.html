@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edycja Kwestionariusza</title>
+
+    <script>
+        function showLabels(value) {
+            var labelsDiv = document.getElementById('labelsDiv');
+
+            labelsDiv.style.display = 'none';
+
+            // Show divs depends on selected value
+            if (value === 'SMALLTEXT' || value === 'CHECKBOX') {
+                labelsDiv.style.display = 'block';
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div class="content">
+    <div class="container">
+        <h1>Edycja Kwestionariusza 1</h1>
+    </div>
+    <br>
+    <!--Display all questions-->
+    <tr th:each="question: ${questions.questionList}">
+        <div class="question">
+
+            <div id="item-container">
+                <span th:text="${questionStat.index} + 1 + '.  '  + ${question.text}" id="item-value"></span>
+                <input type="hidden" th:value="${question.text}" id="edit-input"/>
+                <button>Edytuj</button>
+                <!-- Delete button -->
+                <form th:action="@{/admin/kwestionariusz/question/{id}(id=${question.id})}" method="POST">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button type="submit">Usuń pytanie</button>
+                </form>
+
+            </div>
+        </div>
+        <br>
+    </tr>
+
+    <br>
+    <br>
+    <!--Interface to create new question-->
+    <h2>Nowe pytanie</h2>
+    <form th:action="@{/admin/kwestionariusz/question}" method="post" th:object="${newQuestion}">
+        <a>Treść pytania</a>
+        <input type="text" th:field="*{text}">
+        <input type="hidden" th:attr="name='orderId'"
+               th:value="${questions.questionList.size()}">
+        <br>
+        <a>Rozdzaj odpowiedzi</a>
+        <select th:field="*{answerType}" onchange="showLabels(this.value)">
+            <option th:each="option : ${T(com.example.personaltrainer.questionnaire.enums.AnswerType).values()}"
+                    th:value="${option}"
+                    th:text="${option}"></option>
+        </select>
+
+        <div id="labelsDiv" style="display: none;">
+            <!-- Treść dla opcji DATE -->
+            Treść dla checkboxDiv
+            <input type="text" th:field="*{labels[0].text}">
+            <input type="text" th:field="*{labels[1].text}">
+            <input type="text" th:field="*{labels[2].text}">
+
+        </div>
+
+
+        <input type="submit" value="Dodaj pytanie">
+    </form>
+
+    <!--Change order-->
+    <h2>Zmiana kolejności pytań</h2>
+    <form th:action="@{/admin/kwestionariusz/question/order}" method="post" th:object="${order}">
+        <a>Zamień pytanie nr:</a>
+        <input type="text" th:field="*{firstQuestionId}">
+        <a>z pytaniem nr:</a>
+        <input type="text" th:field="*{secondQuestionId}">
+
+        <input type="submit" value="Dokonaj zamiany">
+    </form>
+</div>
+</body>
+</html>

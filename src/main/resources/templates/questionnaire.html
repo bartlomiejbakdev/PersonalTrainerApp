@@ -24,6 +24,7 @@
             max-height: 100vh;
             padding: 20px;
         }
+
         .container {
             background-color: white;
             border-radius: 20px;
@@ -111,41 +112,46 @@
     </div>
 
 
-    <form th:action="@{/kwestionariusz}" method="post" th:object="${questions}">
+    <form th:action="@{/kwestionariusz}" method="post" th:object="${answers}">
 
         <tr th:each="question: ${questions.questionList}">
+
+            <!--Thymeleaf gives us almost everything we need. But there are some cases that thymeleaf does not work properly.-->
+            <!--When we have a hidden field and we want to assign it a value, strangely thymeleaf will ignore the value property.-->
+            <!--                    Look at this input...-->
+            <input type="hidden" th:attr="name='answerList[' + ${questionStat.index} + '].questionText'"
+                   th:value="${question.text}">
+
             <div class="question">
                 <h2 th:text="${question.text}"/>
+
+                <!--Answer type = TEXT-->
+                <span th:if="${#lists.isEmpty(question.labels)}">
+
+                    <textarea th:field="*{answerList[__${questionStat.index}__].text}"
+                              oninput="autoGrow(this)"></textarea>
+
+                </span>
                 <br>
-                <td th:each="answer: ${question.answerList}">
+                <!--Answer type CHECKBOX or SMALLTEXT-->
+                <td th:each="label: ${question.labels}">
 
-                <span th:if="${answer.type == answer.type.CHECKBOX}">
-                    <label th:text="${answer.label}"></label>
-                    <input type="checkbox" value="tak"
-                           th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}">
-                    <input type="hidden" th:value="${answer.label}"
-                           th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].label}">
-                </span>
+                    <span th:if="${question.answerType == question.answerType.CHECKBOX}">
+                        <label th:text="${label.text}"></label>
+                        <br>
+                        <input type="checkbox" th:field="*{answerList[__${questionStat.index}__].text}"
+                               th:value="${label.text}">
+                    </span>
 
-                    <span th:if="${answer.type == answer.type.TEXT}">
-                    <textarea
-                            th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}"
-                            oninput="autoGrow(this)"></textarea>
-                </span>
-
-                    <span th:if="${answer.type == answer.type.SMALLTEXT}">
-                    <label th:text="${answer.label}"></label>
-                    <br>
-                    <input type="text" style="width: 11%;"
-                           th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].text}">
-                    <input type="hidden" th:value="${answer.label}"
-                           th:field="*{questionList[__${questionStat.index}__].answerList[__${answerStat.index}__].label}">
-                </span>
-
-                </td>
-
-                <input type="hidden" th:value="${question.text}"
-                       th:field="*{questionList[__${questionStat.index}__].text}">
+                    <span th:if="${question.answerType == question.answerType.SMALLTEXT}">
+                        <label th:text="${label.text}"></label>
+                        <br>
+                        <input type="hidden" th:attr="name='answerList[' + ${questionStat.index} + '].text'"
+                               th:value="${label.text}">
+                        <input type="text" style="width: 11%;"
+                               th:field="*{answerList[__${questionStat.index}__].text}">
+                    </span>
+                
             </div>
         </tr>
         <p><input type="submit" value="Prześlij odpowiedź"></p>

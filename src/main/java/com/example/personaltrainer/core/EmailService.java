@@ -41,8 +41,8 @@ public class EmailService {
             message.append("<br />");
 
             for (Answer answer : question.answerList) {
-                if (answer.label != null) {
-                    message.append(answer.label);
+                if (answer.questionText != null) {
+                    message.append(answer.questionText);
                     message.append("<br />");
                 }
                 message.append(answer.text);
