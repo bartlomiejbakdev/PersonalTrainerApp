@@ -1,7 +1,9 @@
 package com.example.personaltrainer.questionnaire;
 
+import com.example.personaltrainer.questionnaire.entity.Label;
 import com.example.personaltrainer.questionnaire.entity.Question;
 import com.example.personaltrainer.questionnaire.model.QuestionOrder;
+import com.example.personaltrainer.questionnaire.repository.LabelRepository;
 import com.example.personaltrainer.questionnaire.repository.QuestionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +19,12 @@ public class QuestionnaireAdminController {
 
     private final QuestionnaireService questionnaireService;
     private final QuestionRepository questionRepository;
+    private final LabelRepository labelRepository;
 
-    public QuestionnaireAdminController(QuestionnaireService questionnaireService, QuestionRepository questionRepository) {
+    public QuestionnaireAdminController(QuestionnaireService questionnaireService, QuestionRepository questionRepository, LabelRepository labelRepository) {
         this.questionnaireService = questionnaireService;
         this.questionRepository = questionRepository;
+        this.labelRepository = labelRepository;
     }
 
     @GetMapping
@@ -38,6 +42,11 @@ public class QuestionnaireAdminController {
 
     @PostMapping("/kwestionariusz/question")
     public String addQuestion(@ModelAttribute Question question) {
+
+        for(Label label : question.labels){
+            System.out.println(label.text);
+            labelRepository.save(label);
+        }
         questionRepository.save(question);
         return "redirect:/admin/kwestionariusz";
     }

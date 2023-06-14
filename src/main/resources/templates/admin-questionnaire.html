@@ -3,6 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Edycja Kwestionariusza</title>
+
+    <script>
+        function showLabels(value) {
+            var labelsDiv = document.getElementById('labelsDiv');
+
+            labelsDiv.style.display = 'none';
+
+            // Show divs depends on selected value
+            if (value === 'SMALLTEXT' || value === 'CHECKBOX') {
+                labelsDiv.style.display = 'block';
+            }
+        }
+    </script>
+
 </head>
 <body>
 <div class="content">
@@ -40,12 +54,20 @@
                th:value="${questions.questionList.size()}">
         <br>
         <a>Rozdzaj odpowiedzi</a>
-        <select th:field="*{answerType}">
+        <select th:field="*{answerType}" onchange="showLabels(this.value)">
             <option th:each="option : ${T(com.example.personaltrainer.questionnaire.enums.AnswerType).values()}"
                     th:value="${option}"
                     th:text="${option}"></option>
         </select>
-        <br>
+
+        <div id="labelsDiv" style="display: none;">
+            <!-- Treść dla opcji DATE -->
+            Treść dla checkboxDiv
+            <input type="text" th:field="*{labels[0].text}">
+            <input type="text" th:field="*{labels[1].text}">
+            <input type="text" th:field="*{labels[2].text}">
+
+        </div>
 
 
         <input type="submit" value="Dodaj pytanie">
